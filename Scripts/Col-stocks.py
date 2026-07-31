@@ -6,20 +6,9 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 import re
 import openpyxl
+from market_col.dir_set import project_root_py
 
-
-# Configuramos la ruta del proyecto
-def project_root(marker=".git"):
-    ruta = Path(__file__).resolve().parent
-
-    while ruta != ruta.parent:
-        if (ruta / marker).exists():
-            return ruta
-        ruta = ruta.parent
-
-    raise FileNotFoundError(f"No se encontró '{marker}'")
-
-PROJECT_DIR = project_root()
+PROJECT_DIR = project_root_py()
 
 # Leemos datos viejos
 oldata = pd.read_csv(f"{PROJECT_DIR}/Data/Colombia_Stocks/Acciones_colab.csv", sep=",", decimal=".")
@@ -55,7 +44,6 @@ newdata = pd.read_csv(
     header=0,
 )
 
-
 # Extraemos nombre del nuevo archivo para tomar fecha
 fecha = re.search(r"\d{8}", archivo_csv.stem).group()
 fecha = pd.to_datetime(fecha, format="%Y%m%d").strftime("%Y-%m-%d")
@@ -63,7 +51,11 @@ newdata["Fecha"] = fecha
 
 
 # Concatenamos los datos viejos y nuevos
-data = pd.concat([oldata, newdata])
+data = (
+    pd.concat([oldata, newdata], ignore_index=True)
+      .drop_duplicates(subset=["Fecha", "Nemotécnico"], keep="last")
+)
+
 data["Fecha"] = pd.to_datetime(data["Fecha"]).dt.strftime("%Y-%m-%d")
 
 

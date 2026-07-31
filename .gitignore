@@ -5,3 +5,27 @@ prueba.ipynb
 settigns.json
 .vscode/
 
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# Archivos de prueba y cobertura
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Distribución
+build/
+dist/
