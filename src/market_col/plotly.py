@@ -2,11 +2,12 @@
 
 import plotly.graph_objects as go
 import nbformat as nbf
+import pandas as pd
 
 # This function creates an interactive plot using Plotly. Just for 1 series.
 # It takes a DataFrame, the names of the x and y columns, and titles for the plot and axes as input parameters.
 #  The function returns a Plotly Figure object that can be displayed in a Jupyter notebook or saved as an HTML file.
-def plotly_oneplot(data, x_col, y_col, plot_title):
+def plotly_oneplot(data, x_col, y_col, plot_title, color_in):
     """
     Create an interactive plot using Plotly.
 
@@ -17,6 +18,67 @@ def plotly_oneplot(data, x_col, y_col, plot_title):
     title (str): The title of the plot.
     x_title (str): The title of the x-axis.
     y_title (str): The title of the y-axis.
+
+    Returns:
+    plotly.graph_objects.Figure: The interactive plot.
+    """
+
+    data["retorno"] = data[y_col].pct_change() * 100  # Retorno porcentual
+
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=data[x_col], y=data[y_col], mode='lines', name=y_col, line=dict(color=color_in)))
+
+    # Serie de retornos
+    fig.add_trace(go.Scatter(x=data[x_col], y=data["retorno"],name="Retorno (%)", yaxis="y2", line=dict(color="gray", dash="dot"))
+)
+
+    fig.update_layout(
+        title= plot_title,
+        xaxis_title = "Fecha",
+        yaxis_title = "Valor",
+        template="plotly_white",
+        hovermode="x unified",
+        yaxis=dict(title="Precio"),
+        yaxis2=dict(title="Retorno (%)", overlaying="y", side="right", zeroline=True
+    )
+    )
+
+    fig.update_layout(
+        xaxis=dict(
+            rangeslider=dict(
+                visible=True
+            )
+        )
+    )
+
+    fig.update_layout(
+        xaxis=dict(
+            rangeselector=dict(
+                buttons=[
+                    dict(count=1, label="1M", step="month", stepmode="backward"),
+                    dict(count=6, label="6M", step="month", stepmode="backward"),
+                    dict(count=1, label="YTD", step="year", stepmode="todate"),
+                    dict(count=1, label="1A", step="year", stepmode="backward"),
+                    dict(step="all", label="Todo")
+                ]
+            ),
+            rangeslider=dict(visible=True),
+            type="date"
+        )
+    )
+
+    return fig
+
+
+## Multiple series plot function
+
+def plotly_multipleseries(data):
+    """
+    Create an interactive plot using Plotly.
+
+    Parameters:
+    data (pd.DataFrame): The data to plot - it has to have a column named 'Fecha' and the rest of the columns are the series to plot.
 
     Returns:
     plotly.graph_objects.Figure: The interactive plot.
@@ -56,4 +118,4 @@ def plotly_oneplot(data, x_col, y_col, plot_title):
         )
     )
 
-    return fig 
+    return fig
