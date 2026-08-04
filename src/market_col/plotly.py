@@ -7,7 +7,7 @@ import pandas as pd
 # This function creates an interactive plot using Plotly. Just for 1 series.
 # It takes a DataFrame, the names of the x and y columns, and titles for the plot and axes as input parameters.
 #  The function returns a Plotly Figure object that can be displayed in a Jupyter notebook or saved as an HTML file.
-def plotly_oneplot(data, x_col, y_col, plot_title, color_in):
+def plotly_oneplot(data, x_col, y_col, plot_title, color_in, date_marker = None):
     """
     Create an interactive plot using Plotly.
 
@@ -24,14 +24,26 @@ def plotly_oneplot(data, x_col, y_col, plot_title, color_in):
     """
 
     data["retorno"] = data[y_col].pct_change() * 100  # Retorno porcentual
-
+    #data["base100"] = (data[y_col] / data[y_col].iloc[0]) * 100
 
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=data[x_col], y=data[y_col], mode='lines', name=y_col, line=dict(color=color_in)))
-
+    fig.add_trace(go.Scatter(x=data[x_col], y=data[y_col], mode='lines', name=y_col, line=dict(color=color_in, dash = "solid")))
+ 
     # Serie de retornos
-    fig.add_trace(go.Scatter(x=data[x_col], y=data["retorno"],name="Retorno (%)", yaxis="y2", line=dict(color="gray", dash="dot"))
-)
+
+    fig.add_trace(go.Bar(x=data[x_col], y=data["retorno"],name="Retorno (%)", yaxis="y2", marker_color = "rgba(128, 128, 128, 0.4)"))
+
+    # Serie de base100
+    #fig.add_trace(go.Scatter(x=data[x_col], y=data["base100"],name="Base 100", yaxis="y3", line=dict(color=color_in, dash="solid")))
+
+    if date_marker is not None:
+        fig.add_vline(
+        x= date_marker,
+        line_dash="dash",
+        line_color="red",
+        line_width=1
+        )
+
 
     fig.update_layout(
         title= plot_title,
@@ -39,9 +51,9 @@ def plotly_oneplot(data, x_col, y_col, plot_title, color_in):
         yaxis_title = "Valor",
         template="plotly_white",
         hovermode="x unified",
+        #yaxis=dict(title="base100", overlaying="y", side="left", zeroline=True),
         yaxis=dict(title="Precio"),
-        yaxis2=dict(title="Retorno (%)", overlaying="y", side="right", zeroline=True
-    )
+        yaxis2=dict(title="Retorno (%)", overlaying="y", side="right", zeroline=True)
     )
 
     fig.update_layout(
