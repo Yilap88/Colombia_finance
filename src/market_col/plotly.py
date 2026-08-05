@@ -80,6 +80,15 @@ def plotly_oneplot(data, x_col, y_col, plot_title, color_in, date_marker = None)
         )
     )
 
+    fig.update_yaxes(
+        fixedrange=False,
+        autorange=True
+    )
+
+    fig.update_yaxes(
+        showgrid=False
+    )
+
     return fig
 
 
