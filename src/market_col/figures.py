@@ -32,7 +32,7 @@ def html_2_plot (hmtl1, html2):
   </div>
 
   <div style="
-    width: 400px;
+    width: 300px;
     overflow-x: auto;
   ">
       {html2}
