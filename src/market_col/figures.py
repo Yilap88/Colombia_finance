@@ -15,3 +15,30 @@ def static_plot(dfinput, colores):
     plt.ylabel("Precio Cierre")
     plt.grid(True)
     plt.show()
+  
+
+from IPython.display import display, HTML
+
+def html_2_plot (hmtl1, html2):
+  html = f"""
+  <div style="
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  ">
+
+  <div style="flex: 1;">
+      {hmtl1}
+  </div>
+
+  <div style="
+    width: 400px;
+    overflow-x: auto;
+  ">
+      {html2}
+  </div>
+
+  </div>
+  """
+
+  return display(HTML(html))

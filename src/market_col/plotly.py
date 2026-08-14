@@ -139,4 +139,14 @@ def plotly_multipleseries(data):
         )
     )
 
+    fig.update_layout(
+        legend=dict(
+            orientation="h",
+            yanchor="top",
+            y=-0.2,
+            xanchor="center",
+            x=0.5
+        )
+    )
+
     return fig
