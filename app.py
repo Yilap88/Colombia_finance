@@ -3,7 +3,6 @@ from pathlib import Path
 
 #Cargar Librerías
 import pandas as pd
-import matplotlib.pyplot as plt
 from pathlib import Path
 import os
 import re

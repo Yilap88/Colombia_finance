@@ -9,6 +9,13 @@ description = "Herramientas para análisis del mercado financiero colombiano"
 readme = "README.md"
 requires-python = ">=3.13"
 
+dependencies = [
+    "streamlit",
+    "pandas",
+    "plotly",
+    "openpyxl",
+]
+
 [tool.setuptools]
 package-dir = {"" = "src"}
 
