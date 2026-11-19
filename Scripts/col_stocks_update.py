@@ -63,4 +63,4 @@ data["Fecha"] = pd.to_datetime(data["Fecha"]).dt.strftime("%Y-%m-%d")
 data.to_csv(f"{PROJECT_DIR}/Data/Colombia_Stocks/Acciones_colab.csv", index=False)
 
 # avisamos al usuario que el archivo ha sido actualizado
-print(f"Archivo de datos de acciones actualizado correctamente. Ha sido guardado en {PROJECT_DIR}/Data/Colombia_Stocks/Acciones_colab.csv")
+print(f"Archivo de datos {fecha} de acciones actualizado correctamente. Ha sido guardado en {PROJECT_DIR}/Data/Colombia_Stocks/Acciones_colab.csv")
